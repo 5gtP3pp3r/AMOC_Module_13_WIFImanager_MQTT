@@ -3,8 +3,9 @@
 
 Program* program = nullptr;
 void setup() {
+            Serial.begin(SERIAL_SPEED);
+
     Serial.println("Initialisation...");
-    delay(500);
     program = new Program();
     Serial.println("Programme initialisé");
  }
