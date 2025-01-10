@@ -3,6 +3,7 @@
 #include <WiFiManager.h>
 #include <uri/UriRegex.h>
 #include "const.h"
+#include "JSONManager.h"
 
 class WIFI_Manager {
 private:   
@@ -13,9 +14,10 @@ private:
     IPAddress m_portalMask;
     WiFiManager m_WiFiManager;
     WebServer m_webServer;
-    WiFiManagerParameter m_custmParameters;
+    WiFiManagerParameter m_customParameters;
     uint8_t m_timeout;
     bool m_debugOutput;
+    JSONManager* m_JSONManager;
     void setupManager();
 
 public:
@@ -25,8 +27,9 @@ public:
         IPAddress p_portalIP,
         IPAddress p_gatewayIP,
         IPAddress p_portalMasck,
-        WiFiManagerParameter p_custmParameters,
-        uint8_t p_timeout      
+        WiFiManagerParameter p_customParameters,
+        uint8_t p_timeout,   
+        JSONManager* p_JSONManager
         );
     void toggleDebugMode();
     void startConfigPortal();

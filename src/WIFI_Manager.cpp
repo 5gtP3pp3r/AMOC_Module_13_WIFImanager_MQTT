@@ -6,16 +6,18 @@ WIFI_Manager::WIFI_Manager(
     IPAddress p_portalIP,
     IPAddress p_gatewayIP,
     IPAddress p_portalMasck,
-    WiFiManagerParameter p_custmParameters,
-    uint8_t p_timeout
+    WiFiManagerParameter p_customParameters,
+    uint8_t p_timeout,
+    JSONManager* p_JSONManager
     ) : m_portalSSID(p_portalSSID),
         m_portalPassWord(p_portalPassWord),
         m_portalIP(p_portalIP),
         m_gatewayIP(p_gatewayIP),
         m_portalMask(p_portalMasck),
-        m_custmParameters(p_custmParameters),
+        m_customParameters(p_customParameters),
         m_timeout(p_timeout),
-        m_debugOutput(false) {
+        m_debugOutput(false),
+        m_JSONManager(p_JSONManager) {
             setupManager();
     }
 
@@ -25,12 +27,20 @@ void WIFI_Manager::setupManager() {
         Serial.println("Échec connexion réseau WIFI. Lancement portail");
     });
     this->m_WiFiManager.setConfigPortalTimeout(this->m_timeout);
-    this->m_WiFiManager.setSaveParamsCallback([&this->m_custmParameters] () {       // voir pour régler l'erreur
+    this->m_WiFiManager.setSaveParamsCallback([this] () {
         Serial.println("Sauvegarde de la configuration par l'utilisateur dans le portail.");
-        Serial.println(String("Nouvelle valeur du paramètre: ") + this->m_custmParameters.getValue());  // raison erreur lambda
-        //ajouter sauvegarde dans un .json
+        Serial.println(String("Nouvelle valeur du paramètre: ") + this->m_customParameters.getValue());
+        
+        StaticJsonDocument<512> jsonDoc;
+
+        jsonDoc["WiFiSSID"] = WiFi.SSID();
+        jsonDoc["WiFiPassword"] = WiFi.psk();
+        jsonDoc["networkIP"] = WiFi.localIP().toString();
+
+        this->m_JSONManager->write(JSON_FILE_PATH, jsonDoc);
+
     });
-    this->m_WiFiManager.addParameter(&this->m_custmParameters);
+    this->m_WiFiManager.addParameter(&this->m_customParameters);
     this->m_WiFiManager.setAPStaticIPConfig(
         this->m_portalIP,
         this->m_gatewayIP,
@@ -41,8 +51,8 @@ void WIFI_Manager::setupManager() {
         this->m_portalSSID, 
         this->m_portalPassWord
         );
-    this->m_webServer.on(UriRegex("/*"), []() {
-        this->m_webServer.send(200, "text/plain", "Bienvenue sur mon site web!");       // raison erreur lambda
+    this->m_webServer.on(UriRegex("/*"), [this]() {
+        this->m_webServer.send(200, "text/plain", "Bienvenue sur mon site web!");
     });
     if (WiFi.isConnected()) {
         this->m_webServer.begin();
@@ -66,4 +76,5 @@ void WIFI_Manager::startConfigPortal() {
 }
 void WIFI_Manager::eraseConfig() {
     this->m_WiFiManager.erase();
+    ESP.restart();
 }
