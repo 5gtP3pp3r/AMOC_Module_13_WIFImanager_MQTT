@@ -1,12 +1,12 @@
-#include "Tasks/ResetButton.h"
+#include "Tasks/StartConfigButton.h"
 
-ResetButton::ResetButton(
+StartConfigButton::StartConfigButton(
     uint8_t p_pin,
     uint8_t p_actionDelayMS,
     Action* p_action
     ) : Button(p_pin, p_actionDelayMS, p_action) { ; }
 
-void ResetButton::tick() {
+void StartConfigButton::tick() {
     
     this->m_buttonState = digitalRead(this->m_pin);
     this->m_actualTime = millis();
@@ -16,7 +16,7 @@ void ResetButton::tick() {
     }
     if (this->m_actualTime - this->m_lastTimeChange >  this->m_actionDelayMS) {
         if (this->m_lastButtonStableState == LOW && this->m_buttonState == HIGH) {
-            Serial.println("BoutonReset");
+            Serial.println("BoutonStartConfig");
             Serial.print("Adresse de m_actionResetWIFIManager : ");
             Serial.println((uintptr_t)m_action, HEX);
             this->m_action->execute();
