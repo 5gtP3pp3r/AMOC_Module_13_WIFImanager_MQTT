@@ -1,7 +1,7 @@
 #include "JSONManager.h"
 
 JSONManager::JSONManager() { 
-    LittleFS.begin();
+    LittleFS.begin(true);
 }
 
 bool JSONManager::exists(const char *p_filePath) {
