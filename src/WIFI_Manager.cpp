@@ -5,7 +5,7 @@ WIFI_Manager::WIFI_Manager(
     char const* p_portalPassWord,
     IPAddress p_portalIP,
     IPAddress p_gatewayIP,
-    IPAddress p_portalMasck,
+    IPAddress p_portalMask,
     WiFiManagerParameter p_customParameters,
     uint8_t p_timeout,
     JSONManager* p_JSONManager
@@ -13,7 +13,7 @@ WIFI_Manager::WIFI_Manager(
         m_portalPassWord(p_portalPassWord),
         m_portalIP(p_portalIP),
         m_gatewayIP(p_gatewayIP),
-        m_portalMask(p_portalMasck),
+        m_portalMask(p_portalMask),
         m_customParameters(p_customParameters),
         m_timeout(p_timeout),
         m_debugOutput(false),
@@ -22,6 +22,7 @@ WIFI_Manager::WIFI_Manager(
     }
 
 void WIFI_Manager::setupManager() {
+
     this->m_WiFiManager.setDebugOutput(this->m_debugOutput);
     this->m_WiFiManager.setAPCallback([](WiFiManager* p_wiFiManager) {
         Serial.println("Échec connexion réseau WIFI. Lancement portail");
@@ -58,23 +59,27 @@ void WIFI_Manager::setupManager() {
         this->m_webServer.begin();
         Serial.println("connecté au réseau: " + WiFi.SSID());
         Serial.println("Adresse IP: " + WiFi.localIP().toString());
-    }
+    }   
 }
-
 void WIFI_Manager::tick() {
     if (WiFi.isConnected()) {
         this->m_webServer.handleClient();
     }
 }
+/***** Pas utilisé pour l'instant *****/
 void WIFI_Manager::toggleDebugMode() {
     this->m_debugOutput ?  this->m_WiFiManager.setDebugOutput(false) : this->m_WiFiManager.setDebugOutput(true);
     Serial.println("DebugOutPut: " + this->m_debugOutput);    
 }
+/**************************************/
 void WIFI_Manager::startConfigPortal() {
     Serial.println("Lancement manuel du portail!");
     this->m_WiFiManager.startConfigPortal();
 }
-void WIFI_Manager::eraseConfig() {
+void WIFI_Manager::eraseWIFIConfig() {
+    Serial.println("erase");
     this->m_WiFiManager.erase();
-    ESP.restart();
+    Serial.println("Restart");
+    delay(2000);
+    ESP.restart(); 
 }

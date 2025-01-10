@@ -5,6 +5,9 @@ ActionResetWIFIManager::ActionResetWIFIManager(
     ) 
       : m_WIFIManager(p_WIFIManager) { ; }
 
- void ActionResetWIFIManager::execute() {
-    m_WIFIManager->eraseConfig();
- }
+void ActionResetWIFIManager::execute() {
+   Serial.println("ActionResetWIFIManager");
+   Serial.print("Adresse de m_WIFIManager : ");
+   Serial.println((uintptr_t)m_WIFIManager, HEX);
+   m_WIFIManager->eraseWIFIConfig();
+}

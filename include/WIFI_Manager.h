@@ -26,13 +26,13 @@ public:
         char const* p_portalPassWord,
         IPAddress p_portalIP,
         IPAddress p_gatewayIP,
-        IPAddress p_portalMasck,
+        IPAddress p_portalMask,
         WiFiManagerParameter p_customParameters,
         uint8_t p_timeout,   
         JSONManager* p_JSONManager
         );
     void toggleDebugMode();
     void startConfigPortal();
-    void eraseConfig();
+    void eraseWIFIConfig();
     void tick();
 };
