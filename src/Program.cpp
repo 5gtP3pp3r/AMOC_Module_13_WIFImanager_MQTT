@@ -8,7 +8,7 @@ Program::Program()
     m_resetButton(nullptr),
     m_configButton(nullptr) {
         this->m_JSONManager = new JSONManager();
-        WiFiManagerParameter p_customParameters(PARAM_1, PARAM_2, PARAM_3, PARAM_4);
+       // WiFiManagerParameter p_customParameters(PARAM_1, PARAM_2, PARAM_3, PARAM_4);
         IPAddress p_portalIP(192, 168, 24, 1);
         IPAddress p_gateayIP(192, 168,24,1);
         IPAddress p_portalMask(255, 255, 255, 0);
@@ -18,7 +18,7 @@ Program::Program()
             p_portalIP,
             p_gateayIP,
             p_portalMask,
-            p_customParameters,
+          //  p_customParameters,
             TIMEOUT,
             this->m_JSONManager
             );
@@ -44,7 +44,7 @@ Program::Program()
 
     }
 void Program::loop() {
-    this->m_WIFIManager->tick();
+    // this->m_WIFIManager->tick();
     this->m_resetButton->tick();
     this->m_configButton->tick();
 }    

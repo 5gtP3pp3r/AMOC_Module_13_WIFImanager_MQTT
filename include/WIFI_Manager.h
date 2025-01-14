@@ -13,7 +13,7 @@ private:
     IPAddress m_gatewayIP;
     IPAddress m_portalMask;
     WiFiManager m_WiFiManager;
-    WebServer m_webServer;
+    //WebServer m_webServer;  MQTT*
     WiFiManagerParameter m_customParameters;
     uint8_t m_timeout;
     bool m_debugOutput;
@@ -27,7 +27,6 @@ public:
         IPAddress p_portalIP,
         IPAddress p_gatewayIP,
         IPAddress p_portalMask,
-        WiFiManagerParameter p_customParameters,
         uint8_t p_timeout,   
         JSONManager* p_JSONManager
         );
