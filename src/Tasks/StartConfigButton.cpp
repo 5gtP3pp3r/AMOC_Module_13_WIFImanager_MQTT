@@ -7,7 +7,6 @@ StartConfigButton::StartConfigButton(
     ) : Button(p_pin, p_actionDelayMS, p_action) { ; }
 
 void StartConfigButton::tick() {
-    
     this->m_buttonState = digitalRead(this->m_pin);
     this->m_actualTime = millis();
     if (this->m_buttonState != this->m_lastButtonState) {
@@ -16,9 +15,6 @@ void StartConfigButton::tick() {
     }
     if (this->m_actualTime - this->m_lastTimeChange >  this->m_actionDelayMS) {
         if (this->m_lastButtonStableState == LOW && this->m_buttonState == HIGH) {
-            Serial.println("BoutonStartConfig");
-            Serial.print("Adresse de m_actionResetWIFIManager : ");
-            Serial.println((uintptr_t)m_action, HEX);
             this->m_action->execute();
         }
         this->m_lastButtonStableState = this->m_buttonState;
