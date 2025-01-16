@@ -6,5 +6,6 @@
 
 #define DEFAULT_ZERO 0
 #define INTERVAL_40 40
+#define INTERVAL_5 5000
 
 #define JSON_FILE_PATH "/config.json"

@@ -9,3 +9,8 @@
 #define PARAM_2 "Nom du champ"
 #define PARAM_3 "ValeurQuiEtaitSauvegardee"
 #define PARAM_4 40
+
+#define MQTT_SERVER "test"
+#define MQTT_PORT 1883
+#define MQTT_USER "user"
+#define MQTT_PASSWORD "1234"
