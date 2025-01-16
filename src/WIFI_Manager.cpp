@@ -37,7 +37,11 @@ void WIFI_Manager::setupManager() {
 
         jsonDoc["WiFiSSID"] = WiFi.SSID();
         jsonDoc["WiFiPassword"] = WiFi.psk();
-        jsonDoc["networkIP"] = WiFi.localIP().toString();
+        jsonDoc["MQTTServerIP"];
+        jsonDoc["MQTTUser"];
+        jsonDoc["MQTTPasword"];
+        jsonDoc["TemperatureTopic"];
+        // jsonDoc["networkIP"] = WiFi.localIP().toString();
         // Ajouter des params autant que besoin!!!
 
         this->m_JSONManager->write(JSON_FILE_PATH, jsonDoc);
