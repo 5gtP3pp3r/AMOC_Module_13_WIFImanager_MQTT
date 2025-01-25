@@ -8,6 +8,9 @@ Program::Program()
     m_resetButton(nullptr),
     m_configButton(nullptr) {
         this->m_JSONManager = new JSONManager();
+
+        File file = m_JSONManager->read(JSON_FILE_PATH);
+
        // WiFiManagerParameter p_customParameters(PARAM_1, PARAM_2, PARAM_3, PARAM_4);
         IPAddress p_portalIP(192, 168, 24, 1);
         IPAddress p_gateayIP(192, 168,24,1);
@@ -18,7 +21,6 @@ Program::Program()
             p_portalIP,
             p_gateayIP,
             p_portalMask,
-          //  p_customParameters,
             TIMEOUT,
             this->m_JSONManager
             );

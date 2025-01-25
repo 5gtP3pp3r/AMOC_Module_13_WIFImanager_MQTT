@@ -8,6 +8,6 @@ private:
 public:
     JSONManager();    
     void write(const char* p_filePath, const JsonDocument& p_doc);
-    void read(const char* p_filePath, JsonDocument& p_doc);
+    JsonDocument read(const char* p_filePath);
     void remove(const char* p_filePath);  
 };

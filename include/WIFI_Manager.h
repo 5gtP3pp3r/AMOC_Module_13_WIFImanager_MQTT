@@ -14,7 +14,10 @@ private:
     IPAddress m_portalMask;
     WiFiManager m_WiFiManager;
     //WebServer m_webServer;  MQTT*
-    WiFiManagerParameter m_customParameters;
+    WiFiManagerParameter m_HASS_USER;
+    WiFiManagerParameter m_HASS_PASS;
+    WiFiManagerParameter m_HASS_IP;
+    WiFiManagerParameter m_HASS_PORT;
     uint8_t m_timeout;
     bool m_debugOutput;
     JSONManager* m_JSONManager;

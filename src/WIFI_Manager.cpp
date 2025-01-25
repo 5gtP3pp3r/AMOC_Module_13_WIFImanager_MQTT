@@ -15,7 +15,10 @@ WIFI_Manager::WIFI_Manager(
         m_portalIP(p_portalIP),
         m_gatewayIP(p_gatewayIP),
         m_portalMask(p_portalMask),
-        m_customParameters(PARAM_1, PARAM_2, PARAM_3, PARAM_4), // En ajouter autant que besoin!!!
+        m_HASS_USER(HASS_USER_PARAM_1, HASS_USER_PARAM_2, HASS_USER_PARAM_3, HASS_USER_PARAM_4), // En ajouter autant que besoin!!!
+        m_HASS_PASS(HASS_PASS_PARAM_1, HASS_PASS_PARAM_2, HASS_PASS_PARAM_3, HASS_PASS_PARAM_4),
+        m_HASS_IP(HASS_IP_PARAM_1, HASS_IP_PARAM_2, HASS_IP_PARAM_3, HASS_IP_PARAM_4),
+        m_HASS_PORT(HASS_PORT_PARAM_1, HASS_PORT_PARAM_2, HASS_PORT_PARAM_3, HASS_PORT_PARAM_4),
         m_timeout(p_timeout),
         m_debugOutput(false),
         m_JSONManager(p_JSONManager) {
@@ -31,23 +34,28 @@ void WIFI_Manager::setupManager() {
     this->m_WiFiManager.setConfigPortalTimeout(this->m_timeout);
     this->m_WiFiManager.setSaveParamsCallback([this] () {
         Serial.println("Sauvegarde de la configuration par l'utilisateur dans le portail.");
-        Serial.println(String("Nouvelle valeur du paramètre: ") + this->m_customParameters.getValue()); // En ajouter autant que besoin!!!
+        Serial.println(String("Nouvelle HASS USER: ") + this->m_HASS_USER.getValue());
+        Serial.println(String("Nouvelle HASS PASS: ") + this->m_HASS_PASS.getValue());
+        Serial.println(String("Nouvelle HASS IP: ") + this->m_HASS_IP.getValue());
+        Serial.println(String("Nouvelle HASS PORT: ") + this->m_HASS_PORT.getValue());
         
         StaticJsonDocument<512> jsonDoc;
 
         jsonDoc["WiFiSSID"] = WiFi.SSID();
         jsonDoc["WiFiPassword"] = WiFi.psk();
-        jsonDoc["MQTTServerIP"];
-        jsonDoc["MQTTUser"];
-        jsonDoc["MQTTPasword"];
-        jsonDoc["TemperatureTopic"];
-        // jsonDoc["networkIP"] = WiFi.localIP().toString();
-        // Ajouter des params autant que besoin!!!
+        jsonDoc["HASSUser"] = this->m_HASS_USER.getValue();
+        jsonDoc["HASSPasword"] = this->m_HASS_PASS.getValue();
+        jsonDoc["HASSIP"] = this->m_HASS_IP.getValue();
+        jsonDoc["HASSPORT"] = this->m_HASS_PORT.getValue();
 
         this->m_JSONManager->write(JSON_FILE_PATH, jsonDoc);
 
     });
-    this->m_WiFiManager.addParameter(&this->m_customParameters);
+    this->m_WiFiManager.addParameter(&this->m_HASS_USER);
+    this->m_WiFiManager.addParameter(&this->m_HASS_PASS);
+    this->m_WiFiManager.addParameter(&this->m_HASS_IP);
+    this->m_WiFiManager.addParameter(&this->m_HASS_PORT);
+
     this->m_WiFiManager.setAPStaticIPConfig(
         this->m_portalIP,
         this->m_gatewayIP,

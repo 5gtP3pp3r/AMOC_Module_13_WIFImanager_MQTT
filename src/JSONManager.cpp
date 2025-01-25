@@ -27,7 +27,7 @@ void JSONManager::write(const char *p_filePath, const JsonDocument &p_doc) {
       
 }
 
-void JSONManager::read(const char *p_filePath, JsonDocument &p_doc) {
+JsonDocument JSONManager::read(const char *p_filePath) {
 
     if (!exists(p_filePath)) {
         Serial.println("Erreur : Le fichier n'existe pas!");
@@ -40,7 +40,9 @@ void JSONManager::read(const char *p_filePath, JsonDocument &p_doc) {
         return;
     }
 
-    DeserializationError error = deserializeJson(p_doc, file);
+    JsonDocument doc;
+
+    DeserializationError error = deserializeJson(doc, file);
     file.close();
     if (error) {
         Serial.println(String("Erreur : Échec de la désérialisation JSON: ") + error.c_str());
