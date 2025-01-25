@@ -49,7 +49,7 @@ JsonDocument JSONManager::read(const char *p_filePath) {
         return;
     } 
 
-    Serial.println(String("Fichier lu avec succès: ") + p_filePath);  
+    return doc;
 }
 
 void JSONManager::remove(const char *p_filePath) {
